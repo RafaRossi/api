@@ -57,6 +57,7 @@ export class UserController {
         return new UserProxy(
             this.idCount + 1,
             payload.name || proxy?.name, 
-            payload.age || proxy?.age);
+            payload.age || proxy?.age
+        );
     }
 }
