@@ -1,7 +1,8 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {UserProxy} from "./user.proxy";
 import {UserPayload} from "./user.payload";
-import {ApiProperty} from "@nestjs/swagger";
+import {ApiOkResponse, ApiOperation, ApiProperty} from "@nestjs/swagger";
+import { truncate } from 'fs';
 
 @Controller('user')
 export class UserController {
@@ -10,12 +11,16 @@ export class UserController {
     private idCount: number = 0;
     
     @Get('/list')
-    getUsers(): UserProxy[] {
+    @ApiOkResponse({ type: UserProxy, isArray: true})
+    @ApiOperation({ summary: 'Retorna os dados de todos usuários.'})
+    public getUsers(): UserProxy[] {
         return this.listUsers;
     }
     
     @Get(':userID')
-    getUser(@Param('userID') userID: string): UserProxy {
+    @ApiOperation({ summary: 'Retorna os dados de um usuário pela identificação.'})
+    @ApiOkResponse({type: UserProxy})
+    public getUser(@Param('userID') userID: string): UserProxy {
         const user = this.listUsers.find(user => user.id === +userID);
         
         if(!user) throw new NotFoundException('Usuário não existe.')
@@ -24,7 +29,9 @@ export class UserController {
     }
     
     @Post()
-    postUser(@Body() user: UserPayload) : UserProxy
+    @ApiOperation({ summary: 'Cria um usuário.'})
+    @ApiOkResponse({type: UserProxy})
+    public postUser(@Body() user: UserPayload) : UserProxy
     {
         const userProxy = this.getProxyFromPayload(user);
         this.listUsers.push(userProxy);
@@ -33,7 +40,9 @@ export class UserController {
     }
     
     @Put(':userID')
-    putUser(@Param('userID') userID: string, @Body() user: UserPayload) : UserProxy
+    @ApiOperation({ summary: 'Atualiza um usuário pela identificação.'})
+    @ApiOkResponse({type: UserProxy})
+    public putUser(@Param('userID') userID: string, @Body() user: UserPayload) : UserProxy
     {
         const index = this.listUsers.findIndex(user => user.id === +userID);
 
@@ -43,7 +52,8 @@ export class UserController {
     }
     
     @Delete(':userID')
-    deleteUser(@Param('userID') userID: string)
+    @ApiOperation({ summary: 'Deleta um usuário pela identificação.'})
+    public deleteUser(@Param('userID') userID: string)
     {
         const index = this.listUsers.findIndex(user => user.id === +userID);
         

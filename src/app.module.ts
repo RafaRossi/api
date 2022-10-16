@@ -10,13 +10,20 @@ import { UserController } from './modules/user/user.controller';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port:  5432,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      entities: [],
+      password: '123456',
+      database: '',
+      username: 'postgres',
+      port: 5432,
+      autoLoadEntities: true,
       synchronize: true,
-  ],
+      logging: false,
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        }
+      },
+    })],
   controllers: [AppController, UserController],
   providers: [AppService],
 })
