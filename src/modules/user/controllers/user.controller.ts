@@ -1,11 +1,16 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
-import {UserProxy} from "./user.proxy";
-import {UserPayload} from "./user.payload";
+import {UserPayload} from "../models/user.payload";
 import {ApiOkResponse, ApiOperation, ApiProperty} from "@nestjs/swagger";
 import { truncate } from 'fs';
+import { UserService } from '../services/user.service';
+import { UserProxy } from '../models/user.proxy';
 
 @Controller('user')
 export class UserController {
+
+    constructor(
+        private service: UserService,
+    ){}
     
     public listUsers: UserProxy[] = [];
     private idCount: number = 0;
@@ -31,24 +36,20 @@ export class UserController {
     @Post()
     @ApiOperation({ summary: 'Cria um usuário.'})
     @ApiOkResponse({type: UserProxy})
-    public postUser(@Body() user: UserPayload) : UserProxy
-    {
-        const userProxy = this.getProxyFromPayload(user);
-        this.listUsers.push(userProxy);
-        
-        return userProxy;
-    }
+    public async postUser(@Body() user: UserPayload) : Promise<UserProxy> { 
+           return await this.service.postUser(user).then(entity => new UserProxy(entity))
+        };
     
     @Put(':userID')
     @ApiOperation({ summary: 'Atualiza um usuário pela identificação.'})
     @ApiOkResponse({type: UserProxy})
-    public putUser(@Param('userID') userID: string, @Body() user: UserPayload) : UserProxy
+    public putUser(@Param('userID') userID: string, @Body() user: UserPayload) : UserProxy | undefined
     {
         const index = this.listUsers.findIndex(user => user.id === +userID);
 
         if(index === -1) throw new NotFoundException('Usuário não existe.')
-        
-        return this.listUsers[index] = this.getProxyFromPayload(user, this.listUsers[index]);
+    
+        return undefined
     }
     
     @Delete(':userID')
@@ -60,14 +61,5 @@ export class UserController {
         if(index === -1) throw new NotFoundException("Usuário não encontrado");
         
         this.listUsers.splice(index, 1);
-    }
-    
-    private getProxyFromPayload(payload: UserPayload, proxy?: UserProxy): UserProxy
-    {
-        return new UserProxy(
-            this.idCount + 1,
-            payload.name || proxy?.name, 
-            payload.age || proxy?.age
-        );
     }
 }

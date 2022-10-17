@@ -3,27 +3,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserController } from './modules/user/user.controller';
+import { UserController } from './modules/user/controllers/user.controller';
+import { UsersModule } from './modules/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      password: '123456',
-      database: '',
-      username: 'postgres',
-      port: 5432,
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: false,
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        }
-      },
-    })],
+    type: 'sqlite',
+    database: 'test.db',
+    autoLoadEntities: true,
+    synchronize: true,
+    }),
+  UsersModule
+],
   controllers: [AppController, UserController],
   providers: [AppService],
 })
