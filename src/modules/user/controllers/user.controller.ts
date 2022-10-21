@@ -1,11 +1,12 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {UserPayload} from "../models/user.payload";
-import {ApiOkResponse, ApiOperation, ApiProperty} from "@nestjs/swagger";
+import {ApiOkResponse, ApiOperation, ApiProperty, ApiTags} from "@nestjs/swagger";
 import { truncate } from 'fs';
 import { UserService } from '../services/user.service';
 import { UserProxy } from '../models/user.proxy';
 
 @Controller('user')
+@ApiTags('user')
 export class UserController {
 
     constructor(

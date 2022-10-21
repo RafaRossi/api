@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CourseModule } from './modules/course/course.module';
 import { UserController } from './modules/user/controllers/user.controller';
 import { UsersModule } from './modules/user/user.module';
 
@@ -14,7 +15,8 @@ import { UsersModule } from './modules/user/user.module';
     autoLoadEntities: true,
     synchronize: true,
     }),
-  UsersModule
+  UsersModule,
+  CourseModule
 ],
   controllers: [AppController, UserController],
   providers: [AppService],
