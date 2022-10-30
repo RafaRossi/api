@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { environment } from './environment/environment';
 import { CourseModule } from './modules/course/course.module';
 import { UserController } from './modules/user/controllers/user.controller';
 import { UsersModule } from './modules/user/user.module';
@@ -10,10 +11,17 @@ import { UsersModule } from './modules/user/user.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: 'test.db',
+    type: 'postgres',
+    database: environment.DATABASE_URL,
     autoLoadEntities: true,
     synchronize: true,
+    logging: environment.DATABASE_LOGGING === 'true',
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false
+      }
+    },
     }),
   UsersModule,
   CourseModule
