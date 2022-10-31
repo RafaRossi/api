@@ -12,26 +12,20 @@ export class UserController {
     constructor(
         private service: UserService,
     ){}
-    
-    public listUsers: UserProxy[] = [];
-    private idCount: number = 0;
+
     
     @Get('/list')
     @ApiOkResponse({ type: UserProxy, isArray: true})
     @ApiOperation({ summary: 'Retorna os dados de todos usuários.'})
-    public getUsers(): UserProxy[] {
-        return this.listUsers;
+    public async getUsers(): Promise<UserProxy[]> {
+        return await this.service.findAll();
     }
     
     @Get(':userID')
     @ApiOperation({ summary: 'Retorna os dados de um usuário pela identificação.'})
     @ApiOkResponse({type: UserProxy})
-    public getUser(@Param('userID') userID: string): UserProxy {
-        const user = this.listUsers.find(user => user.id === +userID);
-        
-        if(!user) throw new NotFoundException('Usuário não existe.')
-        
-        return user;
+    public async getUser(@Param('userID') userID: number): Promise<UserProxy> {
+        return await this.service.findOne(userID);
     }
     
     @Post()
@@ -44,23 +38,15 @@ export class UserController {
     @Put(':userID')
     @ApiOperation({ summary: 'Atualiza um usuário pela identificação.'})
     @ApiOkResponse({type: UserProxy})
-    public putUser(@Param('userID') userID: string, @Body() user: UserPayload) : UserProxy | undefined
+    public async putUser(@Param('userID') userID: number, @Body() user: UserPayload) : Promise<UserProxy>
     {
-        const index = this.listUsers.findIndex(user => user.id === +userID);
-
-        if(index === -1) throw new NotFoundException('Usuário não existe.')
-    
-        return undefined
+        return await this.service.postUser(user);
     }
     
     @Delete(':userID')
     @ApiOperation({ summary: 'Deleta um usuário pela identificação.'})
     public deleteUser(@Param('userID') userID: string)
     {
-        const index = this.listUsers.findIndex(user => user.id === +userID);
-        
-        if(index === -1) throw new NotFoundException("Usuário não encontrado");
-        
-        this.listUsers.splice(index, 1);
+        return;
     }
 }
