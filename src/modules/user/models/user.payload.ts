@@ -1,6 +1,7 @@
 ﻿import {ApiProperty} from "@nestjs/swagger";
+import { IsEmail } from "class-validator";
 
-export class UserPayload{
+export class UserPayload {
     @ApiProperty()
     name: string;
 
@@ -8,6 +9,7 @@ export class UserPayload{
     birthday: string;
 
     @ApiProperty()
+    @IsEmail({ message: 'É necessário enviar um e-mail válido.'})
     email: string;
   
     @ApiProperty()

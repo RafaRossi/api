@@ -12,6 +12,10 @@ export class UserService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
+  public getRepository(): Repository<UserEntity> {
+    return this.usersRepository;
+  }
+
   findAll(): Promise<UserEntity[]> {
     return this.usersRepository.find();
   }

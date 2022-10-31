@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { environment } from './environment/environment';
+import { AuthModule } from './modules/auth/auth.module';
 import { CourseModule } from './modules/course/course.module';
 import { UserController } from './modules/user/controllers/user.controller';
 import { UsersModule } from './modules/user/user.module';
@@ -24,7 +25,8 @@ import { UsersModule } from './modules/user/user.module';
       },
     }),
   UsersModule,
-  CourseModule
+  CourseModule,
+  AuthModule
 ],
   controllers: [AppController, UserController],
   providers: [AppService],
