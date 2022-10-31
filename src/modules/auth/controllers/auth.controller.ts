@@ -11,7 +11,7 @@ export class AuthController {
         private service: AuthService,
     ){}
     
-    @Post('/auth-local')
+    @Post('/local')
     @ApiOkResponse({ description: 'Usuário logado com sucesso.'})
     @ApiOperation({ summary: 'Autenticação do usuário'})
     public async auth(@Body() authPayload: AuthPayload): Promise<void> {
