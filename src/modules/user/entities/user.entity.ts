@@ -15,7 +15,7 @@ export class UserEntity {
   name: string;
 
   @Column()
-  birthday: string;
+  imageUrl: string;
 
   @Column({ default: true })
   isActive: boolean;

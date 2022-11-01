@@ -6,7 +6,7 @@ export class UserPayload {
     name: string;
 
     @ApiProperty()
-    birthday: string;
+    imageUrl: string;
 
     @ApiProperty()
     @IsEmail({ message: 'É necessário enviar um e-mail válido.'})

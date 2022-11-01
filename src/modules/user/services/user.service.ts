@@ -33,7 +33,7 @@ export class UserService {
 
     user.email = payload.email;
     user.name = payload.name;
-    user.birthday = payload.birthday;
+    user.imageUrl = payload.imageUrl;
     user.password = payload.password;
     user.isActive = payload.isActive;
 

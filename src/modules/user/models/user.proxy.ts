@@ -5,7 +5,7 @@ export class UserProxy{
     constructor(entity: UserEntity) {
         this.id = entity.id;
         this.name = entity.name;
-        this.birthday = entity.birthday;
+        this.imageUrl = entity.imageUrl;
     }
 
     @ApiProperty()
@@ -15,5 +15,5 @@ export class UserProxy{
     name: string;
     
     @ApiProperty()
-    birthday: string;
+    imageUrl: string;
 }
