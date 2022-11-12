@@ -28,7 +28,7 @@ export class UserService {
     await this.usersRepository.delete(id);
   }
 
-  public async postUser(payload: UserPayload): Promise<UserEntity> {
+  public async create(payload: UserPayload): Promise<UserEntity> {
     const user = new UserEntity();
 
     user.email = payload.email;
@@ -38,5 +38,24 @@ export class UserService {
     user.isActive = payload.isActive;
 
     return await this.usersRepository.save(user);
+  }
+
+  public async update(payload: UserPayload, id: number): Promise<UserProxy> {
+    const oldEntity = await this.usersRepository.findOneBy({id});
+
+    const user = new UserEntity();
+    
+    user.email = payload.email;
+    user.name = payload.name;
+    user.imageUrl = payload.imageUrl;
+    user.password = payload.password;
+    user.isActive = payload.isActive;
+
+    const entity = {
+      ...oldEntity,
+      ...user,
+    }
+
+    return await this.usersRepository.save(entity);
   }
 }

@@ -32,7 +32,7 @@ export class UserController {
     @ApiOperation({ summary: 'Cria um usuário.'})
     @ApiOkResponse({type: UserProxy})
     public async postUser(@Body() user: UserPayload) : Promise<UserProxy> { 
-           return await this.service.postUser(user).then(entity => new UserProxy(entity))
+           return await this.service.create(user).then(entity => new UserProxy(entity))
         };
     
     @Put(':userID')
@@ -40,7 +40,7 @@ export class UserController {
     @ApiOkResponse({type: UserProxy})
     public async putUser(@Param('userID') userID: number, @Body() user: UserPayload) : Promise<UserProxy>
     {
-        return await this.service.postUser(user);
+        return await this.service.update(user, userID);
     }
     
     @Delete(':userID')

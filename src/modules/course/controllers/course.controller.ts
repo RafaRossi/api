@@ -1,47 +1,49 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {ApiOkResponse, ApiOperation, ApiProperty, ApiTags} from "@nestjs/swagger";
-import { truncate } from 'fs';
 import { CoursePayload } from '../models/course.payload';
 import { CourseProxy } from '../models/course.proxy';
+import { CourseService } from '../services/course.service';
 
 @Controller('course')
 @ApiTags('course')
 export class CourseController {
 
     constructor(
-        // private service: CourseService,
+        private service: CourseService,
     ){}
     
     @Get('/list')
     @ApiOkResponse({ type: CourseProxy, isArray: true})
     @ApiOperation({ summary: 'Retorna os dados de todos cursos.'})
-    public getMany(): CourseProxy[] | void {
-        // return this.service.list;
+    public async getMany(): Promise<CourseProxy[]> {
+        return await this.service.findAll();
     }
     
-    @Get(':courseId')
+    @Get(':id')
     @ApiOperation({ summary: 'Retorna os dados de um curso pela identificação.'})
     @ApiOkResponse({type: CourseProxy})
-    public getOne(@Param('courseId') courseId: string): CourseProxy | void {
-        // return this.service.getOne();
+    public async getOne(@Param('id') id: number): Promise<CourseProxy> {
+        return await this.service.findOne(id);
     }
     
     @Post()
     @ApiOperation({ summary: 'Cria um curso.'})
     @ApiOkResponse({type: CourseProxy})
-    public async post(@Body() course: CoursePayload) : Promise<CourseProxy |  void> { 
+    public async post(@Body() course: CoursePayload) : Promise<CourseProxy> { 
         };
     
-    @Put(':courseId')
+    @Put(':id')
     @ApiOperation({ summary: 'Atualiza um curso pela identificação.'})
     @ApiOkResponse({type: CourseProxy})
-    public put(@Param('courseId') courseId: string, @Body() user: CoursePayload) : CourseProxy | void
+    public async put(@Param('id') id: number, @Body() payload: CoursePayload) : Promise<CourseProxy>
     {
+        await this.service.update(payload, id);
     }
     
-    @Delete(':courseId')
+    @Delete(':id')
     @ApiOperation({ summary: 'Deleta um curso pela identificação.'})
-    public deleteOne(@Param('courseId') courseId: string)
+    public async deleteOne(@Param('id') id: string)
     {
+        await this.service.update(id);
     }
 }
