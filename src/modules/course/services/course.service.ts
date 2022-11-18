@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CourseModuleEntity } from 'src/modules/course-modules/entities/course-module.entity';
 import { Repository } from 'typeorm';
 import { CourseEntity } from '../entities/course.entity';
 import { CoursePayload } from '../models/course.payload';
@@ -17,7 +18,13 @@ export class CourseService {
   }
 
   public async findAll(): Promise<CourseEntity[]> {
-    return await this.repository.find();
+    return await this.repository.find({ 
+      join: {
+        alias: 'module',
+        leftJoinAndSelect: {
+          modules: 'course.modules' 
+          }}
+      });
   }
 
   public async findOne(id: number): Promise<CourseEntity> {

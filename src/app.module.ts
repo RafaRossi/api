@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { environment } from './environment/environment';
 import { AuthModule } from './modules/auth/auth.module';
+import { CourseModuleModule } from './modules/course-modules/course-module.module';
 import { CourseModule } from './modules/course/course.module';
 import { UserController } from './modules/user/controllers/user.controller';
 import { UsersModule } from './modules/user/user.module';
@@ -26,6 +27,7 @@ import { UsersModule } from './modules/user/user.module';
     }),
   UsersModule,
   CourseModule,
+  CourseModuleModule,
   AuthModule
 ],
   controllers: [AppController, UserController],
