@@ -29,7 +29,8 @@ export class CourseController {
     @Post()
     @ApiOperation({ summary: 'Cria um curso.'})
     @ApiOkResponse({type: CourseProxy})
-    public async post(@Body() course: CoursePayload) : Promise<CourseProxy> { 
+    public async post(@Body() payload: CoursePayload) : Promise<CourseProxy> { 
+        return await this.service.create(payload);
         };
     
     @Put(':id')
@@ -37,13 +38,13 @@ export class CourseController {
     @ApiOkResponse({type: CourseProxy})
     public async put(@Param('id') id: number, @Body() payload: CoursePayload) : Promise<CourseProxy>
     {
-        await this.service.update(payload, id);
+        return await this.service.update(payload, id);
     }
     
     @Delete(':id')
     @ApiOperation({ summary: 'Deleta um curso pela identificação.'})
-    public async deleteOne(@Param('id') id: string)
+    public async deleteOne(@Param('id') id: number)
     {
-        await this.service.update(id);
+        await this.service.remove(id);
     }
 }
