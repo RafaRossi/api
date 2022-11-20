@@ -31,7 +31,7 @@ export class CourseModuleService {
     const course = new CourseModuleEntity();
 
     course.title = payload.title;
-    course.
+    course.courseId = payload.courseId;
 
     return await this.repository.save(course);
   }
