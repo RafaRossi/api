@@ -12,7 +12,7 @@ export class CourseController {
         private service: CourseService,
     ){}
     
-    @Get('/list')
+    @Get()
     @ApiOkResponse({ type: CourseProxy, isArray: true})
     @ApiOperation({ summary: 'Retorna os dados de todos cursos.'})
     public async getMany(): Promise<CourseProxy[]> {

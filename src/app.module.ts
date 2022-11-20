@@ -12,22 +12,10 @@ import { UsersModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: environment.DATABASE_URL,
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: environment.DATABASE_LOGGING === 'true',
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        }
-      },
-    }),
+    TypeOrmModule.forRoot(),
   UsersModule,
-  CourseModule,
   CourseModuleModule,
+  CourseModule,
   AuthModule
 ],
   controllers: [AppController, UserController],
