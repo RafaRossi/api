@@ -31,6 +31,7 @@ export class CourseModuleService {
     const course = new CourseModuleEntity();
 
     course.title = payload.title;
+    course.
 
     return await this.repository.save(course);
   }

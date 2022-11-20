@@ -10,6 +10,9 @@ export class CourseModuleEntity {
     @Column()
     public title: string;
 
+    @Column()
+    public courseId: number;
+
     @ManyToOne(() => CourseEntity, course => course.modules)
     public course?: CourseEntity;
 
