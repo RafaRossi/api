@@ -20,7 +20,7 @@ export class CourseService {
   public async findAll(): Promise<CourseEntity[]> {
     return await this.repository.find({ 
       join: {
-        alias: 'module',
+        alias: 'course',
         leftJoinAndSelect: {
           modules: 'course.modules' 
           }}
@@ -28,7 +28,13 @@ export class CourseService {
   }
 
   public async findOne(id: number): Promise<CourseEntity> {
-    return await this.repository.findOneBy({ id });
+    return await this.repository.findOne({
+      where: {id},
+      join: {
+      alias: 'course',
+      leftJoinAndSelect: {
+        modules: 'course.modules' 
+        }} }, );
   }
 
   public async remove(id: number): Promise<void> {
