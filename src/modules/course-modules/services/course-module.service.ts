@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Entity, Repository } from 'typeorm';
 import { CourseModuleEntity } from '../entities/course-module.entity';
-import { CoursePayload } from '../models/course-module.payload';
+import { CourseModulePayload } from '../models/course-module.payload';
 
 @Injectable()
 export class CourseModuleService {
@@ -27,7 +27,7 @@ export class CourseModuleService {
     await await this.repository.delete(id);
   }
 
-  public async create(payload: CoursePayload): Promise<CourseModuleEntity> {
+  public async create(payload: CourseModulePayload): Promise<CourseModuleEntity> {
     const course = new CourseModuleEntity();
 
     course.title = payload.title;
@@ -35,7 +35,7 @@ export class CourseModuleService {
     return await this.repository.save(course);
   }
 
-  public async update(payload: CoursePayload, id: number): Promise<CourseModuleEntity> {
+  public async update(payload: CourseModulePayload, id: number): Promise<CourseModuleEntity> {
     const oldEntity = await this.repository.findOneBy({id});
 
     const course = new CourseModuleEntity();

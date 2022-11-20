@@ -1,7 +1,7 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {ApiOkResponse, ApiOperation, ApiProperty, ApiTags} from "@nestjs/swagger";
-import { CourseModulePayload, CoursePayload } from '../models/course-module.payload';
-import { CourseModuleProxy, CourseProxy } from '../models/course-module.proxy';
+import { CourseModulePayload } from '../models/course-module.payload';
+import { CourseModuleProxy } from '../models/course-module.proxy';
 import { CourseModuleService } from '../services/course-module.service';
 
 @Controller('course-module')
@@ -13,7 +13,7 @@ export class CourseModuleController {
     ){}
     
     @Get('/list')
-    @ApiOkResponse({ type: CourseProxy, isArray: true})
+    @ApiOkResponse({ type: CourseModuleProxy, isArray: true})
     @ApiOperation({ summary: 'Retorna os dados de todos os modulos de curso.'})
     public async getMany(): Promise<CourseModuleProxy[]> {
         return await this.service.findAll();
@@ -21,22 +21,22 @@ export class CourseModuleController {
     
     @Get(':id')
     @ApiOperation({ summary: 'Retorna os dados de um modulo pela identificação.'})
-    @ApiOkResponse({type: CourseProxy})
-    public async getOne(@Param('id') id: number): Promise<CourseProxy> {
+    @ApiOkResponse({type: CourseModuleProxy})
+    public async getOne(@Param('id') id: number): Promise<CourseModuleProxy> {
         return await this.service.findOne(id);
     }
     
     @Post()
     @ApiOperation({ summary: 'Cria um modulo.'})
-    @ApiOkResponse({type: CourseProxy})
-    public async post(@Body() payload: CourseModulePayload) : Promise<CourseProxy> { 
+    @ApiOkResponse({type: CourseModuleProxy})
+    public async post(@Body() payload: CourseModulePayload ) : Promise<CourseModuleProxy> { 
         return await this.service.create(payload);
         };
     
     @Put(':id')
     @ApiOperation({ summary: 'Atualiza um modulo pela identificação.'})
-    @ApiOkResponse({type: CourseProxy})
-    public async put(@Param('id') id: number, @Body() payload: CourseModulePayload) : Promise<CourseProxy>
+    @ApiOkResponse({type: CourseModuleProxy})
+    public async put(@Param('id') id: number, @Body() payload: CourseModulePayload) : Promise<CourseModuleProxy>
     {
         return await this.service.update(payload, id);
     }
