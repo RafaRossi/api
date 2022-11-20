@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CoursePayload {
+export class CourseModulePayload {
 
     @ApiProperty()
     public title: string;

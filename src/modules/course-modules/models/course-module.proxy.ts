@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CourseModuleEntity } from "../entities/course-module.entity";
 
-export class CourseProxy {
+export class CourseModuleProxy {
     constructor(entity: CourseModuleEntity){
         this.title = entity.title;
     }
