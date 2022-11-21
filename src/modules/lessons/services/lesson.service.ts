@@ -31,6 +31,7 @@ export class LessonService {
     const course = new LessonEntity();
 
     course.title = payload.title;
+    course.videoUrl = payload.videoUrl;
     course.courseModuleId = payload.courseModuleId;
 
     return await this.repository.save(course);
