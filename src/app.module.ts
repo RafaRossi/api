@@ -7,6 +7,7 @@ import { environment } from './environment/environment';
 import { AuthModule } from './modules/auth/auth.module';
 import { CourseModuleModule } from './modules/course-modules/course-module.module';
 import { CourseModule } from './modules/course/course.module';
+import { LessonModule } from './modules/lessons/lesson.module';
 import { UserController } from './modules/user/controllers/user.controller';
 import { UsersModule } from './modules/user/user.module';
 
@@ -21,15 +22,16 @@ import { UsersModule } from './modules/user/user.module';
       ssl: true,
       extra: {
         ssl: {
-          rejectUnauthorized: false,
-        }
+          rejectUnauthorized: false
+        },
       },
     }),
-  UsersModule,
-  CourseModuleModule,
-  CourseModule,
-  AuthModule
-],
+    AuthModule,
+    CourseModuleModule,
+    CourseModule,
+    LessonModule,
+    UsersModule,
+  ],
   controllers: [AppController, UserController],
   providers: [AppService],
 })
