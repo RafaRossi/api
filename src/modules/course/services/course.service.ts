@@ -1,16 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { CourseModuleEntity } from 'src/modules/course-modules/entities/course-module.entity';
-import { Repository } from 'typeorm';
-import { CourseEntity } from '../entities/course.entity';
-import { CoursePayload } from '../models/course.payload';
-import { CourseProxy } from '../models/course.proxy';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CourseEntity } from "../entities/course.entity";
+import { CoursePayload } from "../models/course.payload";
+import { CourseProxy } from "../models/course.proxy";
 
 @Injectable()
 export class CourseService {
   constructor(
     @InjectRepository(CourseEntity)
-    private repository: Repository<CourseEntity>,
+    private repository: Repository<CourseEntity>
   ) {}
 
   public async getRepository(): Promise<Repository<CourseEntity>> {
@@ -18,23 +17,26 @@ export class CourseService {
   }
 
   public async findAll(): Promise<CourseEntity[]> {
-    return await this.repository.find({ 
+    return await this.repository.find({
       join: {
-        alias: 'course',
+        alias: "course",
         leftJoinAndSelect: {
-          modules: 'course.modules' 
-          }}
-      });
+          modules: "course.modules"
+        }
+      }
+    });
   }
 
   public async findOne(id: number): Promise<CourseEntity> {
     return await this.repository.findOne({
-      where: {id},
+      where: { id },
       join: {
-      alias: 'course',
-      leftJoinAndSelect: {
-        modules: 'course.modules' 
-        }} }, );
+        alias: "course",
+        leftJoinAndSelect: {
+          modules: "course.modules"
+        }
+      }
+    });
   }
 
   public async remove(id: number): Promise<void> {
@@ -52,18 +54,18 @@ export class CourseService {
   }
 
   public async update(payload: CoursePayload, id: number): Promise<CourseEntity> {
-    const oldEntity = await this.repository.findOneBy({id});
+    const oldEntity = await this.repository.findOneBy({ id });
 
     const course = new CourseEntity();
-    
+
     course.name = payload.name;
     course.imageUrl = payload.imageUrl;
     course.description = payload.description;
 
     const entity = {
       ...oldEntity,
-      ...course,
-    }
+      ...course
+    };
 
     return await this.repository.save(entity);
   }

@@ -1,5 +1,6 @@
 import { CourseEntity } from "src/modules/course/entities/course.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LessonEntity } from "../../lessons/entities/lesson.entity";
 
 @Entity()
 export class CourseModuleEntity {
@@ -15,5 +16,8 @@ export class CourseModuleEntity {
 
     @ManyToOne(() => CourseEntity, course => course.modules)
     public course?: CourseEntity;
+
+    @OneToMany(() => LessonEntity, lesson => lesson.courseModule)
+    public lessons?: LessonEntity;
 
 }

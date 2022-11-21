@@ -31,21 +31,21 @@ export class LessonService {
     const course = new LessonEntity();
 
     course.title = payload.title;
-    course.courseId = payload.courseId;
+    course.courseModuleId = payload.courseModuleId;
 
     return await this.repository.save(course);
   }
 
   public async update(payload: LessonPayload, id: number): Promise<LessonEntity> {
-    const oldEntity = await this.repository.findOneBy({id});
+    const oldEntity = await this.repository.findOneBy({ id });
 
-    const course = new LessonEntity();
+    const lesson = new LessonEntity();
     
-    course.title = payload.title;
+    lesson.title = payload.title;
 
     const entity = {
       ...oldEntity,
-      ...course,
+      ...lesson,
     }
 
     return await this.repository.save(entity);

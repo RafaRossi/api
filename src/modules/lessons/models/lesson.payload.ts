@@ -6,6 +6,6 @@ export class LessonPayload {
     public title: string;
 
     @ApiProperty()
-    public courseId: number;
+    public courseModuleId: number;
     
 }
