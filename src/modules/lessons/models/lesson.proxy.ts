@@ -1,15 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { LessonEntity } from "../entities/lesson.entity";
+import { ApiProperty } from '@nestjs/swagger';
+import { LessonEntity } from '../entities/lesson.entity';
 
 export class LessonProxy {
     constructor(entity: LessonEntity){
         this.title = entity.title;
-        this.courseId = entity.courseId
+        this.courseModuleId = entity.courseModuleId
     }
 
     @ApiProperty()
     public title: string;
 
     @ApiProperty()
-    public courseId: number;
+    public courseModuleId: number;
 }
