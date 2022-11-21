@@ -6,6 +6,9 @@ export class LessonPayload {
     public title: string;
 
     @ApiProperty()
+    public videoUrl: string;
+
+    @ApiProperty()
     public courseModuleId: number;
     
 }

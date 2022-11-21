@@ -10,8 +10,8 @@ export class LessonEntity {
   @Column()
   public title: string;
 
-  @Column()
-  public videoUrl: string;
+  @Column({ nullable: true })
+  public videoUrl?: string;
 
   @Column()
   public courseModuleId: number;
