@@ -50,9 +50,6 @@ export class CourseModuleService {
     course.title = payload.title;
     course.courseId = payload.courseId;
 
-    if (payload.lessons)
-      await this.lessonService.createMany(payload.lessons);
-
     return await this.repository.save(course);
   }
 
@@ -61,17 +58,11 @@ export class CourseModuleService {
 
     for await (const coursePayload of payload) {
       const course = new CourseModuleEntity();
-
       course.title = coursePayload.title;
       course.courseId = coursePayload.courseId;
-
-      coursesEntity.push(course);
-
-      if (coursePayload.lessons)
-        await this.lessonService.createMany(coursePayload.lessons);
     }
-
     return await this.repository.save(coursesEntity);
+
   }
 
   public async update(payload: CourseModulePayload, id: number): Promise<CourseModuleEntity> {

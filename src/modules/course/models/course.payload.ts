@@ -13,9 +13,4 @@ export class CoursePayload {
 
   @ApiProperty()
   public imageUrl: string;
-
-  @ApiProperty()
-  @Type(() => CourseModulePayload)
-  @ValidateNested({ each: true })
-  public module: CourseModulePayload[];
 }

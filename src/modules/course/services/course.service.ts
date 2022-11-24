@@ -49,9 +49,6 @@ export class CourseService {
     course.imageUrl = payload.imageUrl;
     course.description = payload.description;
 
-    if (payload.module)
-      await this.courseModuleService.createMany(payload.module);
-
     return await this.repository.save(course);
   }
 

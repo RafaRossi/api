@@ -11,9 +11,4 @@ export class CourseModulePayload {
   @ApiProperty()
   public courseId: number;
 
-  @ApiProperty()
-  @Type(() => LessonPayload)
-  @ValidateNested({ each: true })
-  public lessons: LessonPayload[];
-
 }
