@@ -19,15 +19,11 @@ export class CourseService {
   }
 
   public async findAll(): Promise<CourseEntity[]> {
-    return await this.repository.find({
-      join: {
-        alias: "course",
-        leftJoinAndSelect: {
-          modules: "course.modules",
-          'modules.lessons': "course.modules.lessons"
-        }
-      }
-    });
+    return await this.repository
+      .createQueryBuilder('course')
+      .leftJoinAndSelect('course.modules', 'modules')
+      .leftJoinAndSelect('modules.lessons', 'lessons')
+      .getMany();
   }
 
   public async findOne(id: number): Promise<CourseEntity> {
