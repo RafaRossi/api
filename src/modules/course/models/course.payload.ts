@@ -1,19 +1,19 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { CourseModuleEntity } from "../../course-modules/entities/course-module.entity";
+import { Type } from "class-transformer";
 import { CourseModulePayload } from "../../course-modules/models/course-module.payload";
-import { LessonPayload } from "../../lessons/models/lesson.payload";
 
 export class CoursePayload {
 
-    @ApiProperty()
-    public name: string;
-    
-    @ApiProperty()
-    public description: string;
+  @ApiProperty()
+  public name: string;
 
-    @ApiProperty()
-    public imageUrl: string;
+  @ApiProperty()
+  public description: string;
 
-    @ApiProperty()
-    public module: CourseModulePayload[];
+  @ApiProperty()
+  public imageUrl: string;
+
+  @ApiProperty()
+  @Type(() => CourseModulePayload)
+  public module: CourseModulePayload[];
 }
