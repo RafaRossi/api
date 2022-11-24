@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { CourseModuleService } from "../../course-modules/services/course-module.service";
 import { CourseEntity } from "../entities/course.entity";
 import { CoursePayload } from "../models/course.payload";
 import { CourseProxy } from "../models/course.proxy";
@@ -9,7 +10,8 @@ import { CourseProxy } from "../models/course.proxy";
 export class CourseService {
   constructor(
     @InjectRepository(CourseEntity)
-    private repository: Repository<CourseEntity>
+    private repository: Repository<CourseEntity>,
+    private readonly courseModuleService: CourseModuleService
   ) {}
 
   public async getRepository(): Promise<Repository<CourseEntity>> {
@@ -49,6 +51,9 @@ export class CourseService {
     course.name = payload.name;
     course.imageUrl = payload.imageUrl;
     course.description = payload.description;
+
+    if (payload.module)
+      await this.courseModuleService.createMany(payload.module);
 
     return await this.repository.save(course);
   }

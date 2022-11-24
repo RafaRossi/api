@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Entity, Repository } from 'typeorm';
-import { LessonEntity } from '../entities/lesson.entity';
-import { LessonPayload } from '../models/lesson.payload';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { LessonEntity } from "../entities/lesson.entity";
+import { LessonPayload } from "../models/lesson.payload";
 
 @Injectable()
 export class LessonService {
   constructor(
     @InjectRepository(LessonEntity)
-    private repository: Repository<LessonEntity>,
+    private repository: Repository<LessonEntity>
   ) {}
 
   public async getRepository(): Promise<Repository<LessonEntity>> {
@@ -37,17 +37,36 @@ export class LessonService {
     return await this.repository.save(course);
   }
 
-  public async update(payload: LessonPayload, id: number): Promise<LessonEntity> {
+  public async createMany(payload: LessonPayload[]): Promise<LessonEntity[]> {
+    const lessons = [];
+
+    for (const lessonPayload of payload) {
+      const lesson = new LessonEntity();
+
+      lesson.title = lessonPayload.title;
+      lesson.videoUrl = lessonPayload.videoUrl;
+      lesson.courseModuleId = lessonPayload.courseModuleId;
+
+      lessons.push(lesson);
+    }
+
+    return await this.repository.save(lessons);
+  }
+
+  public async update(
+    payload: LessonPayload,
+    id: number
+  ): Promise<LessonEntity> {
     const oldEntity = await this.repository.findOneBy({ id });
 
     const lesson = new LessonEntity();
-    
+
     lesson.title = payload.title;
 
     const entity = {
       ...oldEntity,
-      ...lesson,
-    }
+      ...lesson
+    };
 
     return await this.repository.save(entity);
   }

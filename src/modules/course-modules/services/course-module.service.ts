@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CourseModuleEntity } from '../entities/course-module.entity';
-import { CourseModulePayload } from '../models/course-module.payload';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { LessonService } from "../../lessons/services/lesson.service";
+import { CourseModuleEntity } from "../entities/course-module.entity";
+import { CourseModulePayload } from "../models/course-module.payload";
 
 @Injectable()
 export class CourseModuleService {
   constructor(
     @InjectRepository(CourseModuleEntity)
     private repository: Repository<CourseModuleEntity>,
+    private readonly lessonService: LessonService
   ) {}
 
   public getRepository(): Repository<CourseModuleEntity> {
@@ -18,11 +20,11 @@ export class CourseModuleService {
   public async findAll(): Promise<CourseModuleEntity[]> {
     return await this.repository.find({
       join: {
-        alias: 'module',
+        alias: "module",
         leftJoinAndSelect: {
-          lessons: 'module.lessons',
-        },
-      },
+          lessons: "module.lessons"
+        }
+      }
     });
   }
 
@@ -30,11 +32,11 @@ export class CourseModuleService {
     return await this.repository.findOne({
       where: { id },
       join: {
-        alias: 'module',
+        alias: "module",
         leftJoinAndSelect: {
-          modules: 'module.lessons',
-        },
-      },
+          modules: "module.lessons"
+        }
+      }
     });
   }
 
@@ -48,7 +50,28 @@ export class CourseModuleService {
     course.title = payload.title;
     course.courseId = payload.courseId;
 
+    if (payload.lessons)
+      await this.lessonService.createMany(payload.lessons);
+
     return await this.repository.save(course);
+  }
+
+  public async createMany(payload: CourseModulePayload[]): Promise<CourseModuleEntity[]> {
+    const coursesEntity = [];
+
+    for await (const coursePayload of payload) {
+      const course = new CourseModuleEntity();
+
+      course.title = coursePayload.title;
+      course.courseId = coursePayload.courseId;
+
+      coursesEntity.push(course);
+
+      if (coursePayload.lessons)
+        await this.lessonService.createMany(coursePayload.lessons);
+    }
+
+    return await this.repository.save(coursesEntity);
   }
 
   public async update(payload: CourseModulePayload, id: number): Promise<CourseModuleEntity> {
