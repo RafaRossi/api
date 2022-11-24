@@ -23,7 +23,8 @@ export class CourseService {
       join: {
         alias: "course",
         leftJoinAndSelect: {
-          modules: "course.modules"
+          modules: "course.modules",
+          'modules.lessons': "course.modules.lessons"
         }
       }
     });
