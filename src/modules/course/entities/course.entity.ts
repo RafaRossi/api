@@ -4,19 +4,25 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class CourseEntity {
 
-    @PrimaryGeneratedColumn()
-    public id: number;
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-    @Column()
-    public name: string;
-    
-    @Column()
-    public description: string;
+  @Column()
+  public name: string;
 
-    @Column()
-    public imageUrl: string;
+  @Column()
+  public description: string;
 
-    @OneToMany(() => CourseModuleEntity, module => module.course)
-    public modules?: CourseModuleEntity[];
+  @Column()
+  public author: string;
+
+  @Column()
+  public category: string;
+
+  @Column()
+  public imageUrl: string;
+
+  @OneToMany(() => CourseModuleEntity, module => module.course)
+  public modules?: CourseModuleEntity[];
 
 }

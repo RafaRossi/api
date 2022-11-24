@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../entities/user.entity';
-import { UserPayload } from '../models/user.payload';
-import { UserProxy } from '../models/user.proxy';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { UserEntity } from "../entities/user.entity";
+import { UserPayload } from "../models/user.payload";
+import { UserProxy } from "../models/user.proxy";
+import * as bcryptjs from "bcryptjs";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    private usersRepository: Repository<UserEntity>
   ) {}
 
   public getRepository(): Repository<UserEntity> {
@@ -34,17 +35,20 @@ export class UserService {
     user.email = payload.email;
     user.name = payload.name;
     user.imageUrl = payload.imageUrl;
-    user.password = payload.password;
+
+    const salt = await bcryptjs.genSalt();
+    user.password = await bcryptjs.hash(payload.password, salt);
+
     user.isActive = payload.isActive;
 
     return await this.usersRepository.save(user);
   }
 
   public async update(payload: UserPayload, id: number): Promise<UserProxy> {
-    const oldEntity = await this.usersRepository.findOneBy({id});
+    const oldEntity = await this.usersRepository.findOneBy({ id });
 
     const user = new UserEntity();
-    
+
     user.email = payload.email;
     user.name = payload.name;
     user.imageUrl = payload.imageUrl;
@@ -53,8 +57,8 @@ export class UserService {
 
     const entity = {
       ...oldEntity,
-      ...user,
-    }
+      ...user
+    };
 
     return await this.usersRepository.save(entity);
   }

@@ -48,6 +48,8 @@ export class CourseService {
     course.name = payload.name;
     course.imageUrl = payload.imageUrl;
     course.description = payload.description;
+    course.author = payload.author;
+    course.category = payload.category;
 
     return await this.repository.save(course);
   }
@@ -60,6 +62,8 @@ export class CourseService {
     course.name = payload.name;
     course.imageUrl = payload.imageUrl;
     course.description = payload.description;
+    course.author = payload.author;
+    course.category = payload.category;
 
     const entity = {
       ...oldEntity,

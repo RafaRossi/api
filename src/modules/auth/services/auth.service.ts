@@ -1,25 +1,29 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { UserService } from 'src/modules/user/services/user.service';
-import { AuthPayload } from '../models/auth.payload';
+import * as bcryptjs from "bcryptjs";
+import { UserService } from "src/modules/user/services/user.service";
+import { UserEntity } from "../../user/entities/user.entity";
+import { AuthPayload } from "../models/auth.payload";
+
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
-  public async auth(authPayload: AuthPayload): Promise<void> {
+  public async auth(authPayload: AuthPayload): Promise<UserEntity> {
     const { password, email } = authPayload;
-    
+
     const user = await this.userService.getRepository().findOne({
-        where: {
-            email,
-            password
-        }
-    })
+      where: {
+        email,
+      }
+    });
 
-    if(!user)
-        throw new UnauthorizedException('Usuário ou senha incorretos')
+    const passwordMatch = bcryptjs.compare(user.password, password);
 
-    return;
-    }
+    if (!user || !passwordMatch)
+      throw new UnauthorizedException("Usuário ou senha incorretos");
+
+    return user;
+  }
 }

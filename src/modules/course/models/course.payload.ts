@@ -12,5 +12,11 @@ export class CoursePayload {
   public description: string;
 
   @ApiProperty()
+  public author: string;
+
+  @ApiProperty()
+  public category: string;
+
+  @ApiProperty()
   public imageUrl: string;
 }
