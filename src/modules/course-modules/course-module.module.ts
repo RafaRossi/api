@@ -11,7 +11,7 @@ import { CourseModuleService } from "./services/course-module.service";
     LessonModule
   ],
   providers: [
-    CourseModuleModule,
+    CourseModuleService
   ],
   controllers: [CourseModuleController],
   exports: [
