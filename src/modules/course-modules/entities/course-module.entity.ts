@@ -1,23 +1,24 @@
-import { CourseEntity } from "src/modules/course/entities/course.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { LessonEntity } from "../../lessons/entities/lesson.entity";
+import { CourseEntity } from 'src/modules/course/entities/course.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { LessonEntity } from '../../lessons/entities/lesson.entity';
+import { BaseEntity } from "../../../base/base.entity";
 
 @Entity()
-export class CourseModuleEntity {
+export class CourseModuleEntity extends BaseEntity {
+  @Column()
+  public title: string;
 
-    @PrimaryGeneratedColumn()
-    public id: number;
+  @Column()
+  public courseId: number;
 
-    @Column()
-    public title: string;
+  @ManyToOne(() => CourseEntity, (course) => course.modules)
+  public course?: CourseEntity;
 
-    @Column()
-    public courseId: number;
-
-    @ManyToOne(() => CourseEntity, course => course.modules)
-    public course?: CourseEntity;
-
-    @OneToMany(() => LessonEntity, lesson => lesson.courseModule)
-    public lessons?: LessonEntity;
-
+  @OneToMany(() => LessonEntity, (lesson) => lesson.courseModule)
+  public lessons?: LessonEntity;
 }

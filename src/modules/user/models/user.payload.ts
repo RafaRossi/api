@@ -1,20 +1,20 @@
-﻿import {ApiProperty} from "@nestjs/swagger";
+﻿import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail } from "class-validator";
 
 export class UserPayload {
     @ApiProperty()
-    name: string;
+    public name: string;
 
     @ApiProperty()
-    imageUrl: string;
+    public imageUrl: string;
 
     @ApiProperty()
     @IsEmail({ message: 'É necessário enviar um e-mail válido.'})
-    email: string;
-  
+    public email: string;
+
     @ApiProperty()
-    password: string;
-  
+    public password: string;
+
     @ApiProperty({ default: true })
-    isActive: boolean;
+    public isActive: boolean;
 }

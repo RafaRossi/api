@@ -3,16 +3,16 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LessonEntity } from "../entities/lesson.entity";
 import { LessonPayload } from "../models/lesson.payload";
+import { BaseService } from "../../../base/base.service";
 
 @Injectable()
-export class LessonService {
+export class LessonService extends BaseService<LessonEntity> {
+
   constructor(
     @InjectRepository(LessonEntity)
-    private repository: Repository<LessonEntity>
-  ) {}
-
-  public async getRepository(): Promise<Repository<LessonEntity>> {
-    return this.repository;
+    repository: Repository<LessonEntity>
+  ) {
+    super(repository);
   }
 
   public async findAll(): Promise<LessonEntity[]> {

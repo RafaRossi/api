@@ -1,32 +1,30 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import * as bcryptjs from "bcryptjs";
+import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "../entities/user.entity";
 import { UserPayload } from "../models/user.payload";
-import { UserProxy } from "../models/user.proxy";
-import * as bcryptjs from "bcryptjs";
+import { BaseService } from "../../../base/base.service";
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>
-  ) {}
-
-  public getRepository(): Repository<UserEntity> {
-    return this.usersRepository;
+    repository: Repository<UserEntity>
+  ) {
+    super(repository);
   }
 
-  findAll(): Promise<UserEntity[]> {
-    return this.usersRepository.find();
+  public findAll(): Promise<UserEntity[]> {
+    return this.repository.find();
   }
 
-  findOne(id: number): Promise<UserEntity> {
-    return this.usersRepository.findOneBy({ id });
+  public findOne(id: number): Promise<UserEntity> {
+    return this.repository.findOneBy({ id });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+  public async remove(id: number): Promise<void> {
+    await this.repository.delete(id);
   }
 
   public async create(payload: UserPayload): Promise<UserEntity> {
@@ -41,11 +39,11 @@ export class UserService {
 
     user.isActive = payload.isActive;
 
-    return await this.usersRepository.save(user);
+    return await this.repository.save(user);
   }
 
-  public async update(payload: UserPayload, id: number): Promise<UserProxy> {
-    const oldEntity = await this.usersRepository.findOneBy({ id });
+  public async update(payload: UserPayload, id: number): Promise<UserEntity> {
+    const oldEntity = await this.repository.findOneBy({ id });
 
     const user = new UserEntity();
 
@@ -60,6 +58,6 @@ export class UserService {
       ...user
     };
 
-    return await this.usersRepository.save(entity);
+    return await this.repository.save(entity);
   }
 }

@@ -1,9 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { CourseModuleEntity } from "../../course-modules/entities/course-module.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CourseModuleEntity } from '../../course-modules/entities/course-module.entity';
+import { BaseEntity } from "../../../base/base.entity";
 
 @Entity()
-export class LessonEntity {
-
+export class LessonEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
@@ -18,5 +18,4 @@ export class LessonEntity {
 
   @ManyToOne(() => CourseModuleEntity, (courseModule) => courseModule.lessons)
   public courseModule?: CourseModuleEntity;
-
 }

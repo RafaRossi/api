@@ -4,17 +4,17 @@ import { Repository } from "typeorm";
 import { LessonService } from "../../lessons/services/lesson.service";
 import { CourseModuleEntity } from "../entities/course-module.entity";
 import { CourseModulePayload } from "../models/course-module.payload";
+import { BaseService } from "../../../base/base.service";
 
 @Injectable()
-export class CourseModuleService {
+export class CourseModuleService extends BaseService<CourseModuleEntity> {
+
   constructor(
     @InjectRepository(CourseModuleEntity)
-    private repository: Repository<CourseModuleEntity>,
-    private readonly lessonService: LessonService
-  ) {}
-
-  public getRepository(): Repository<CourseModuleEntity> {
-    return this.repository;
+    repository: Repository<CourseModuleEntity>,
+    private readonly lessonService: LessonService,
+  ) {
+    super(repository);
   }
 
   public async findAll(): Promise<CourseModuleEntity[]> {
@@ -61,8 +61,8 @@ export class CourseModuleService {
       course.title = coursePayload.title;
       course.courseId = coursePayload.courseId;
     }
-    return await this.repository.save(coursesEntity);
 
+    return await this.repository.save(coursesEntity);
   }
 
   public async update(payload: CourseModulePayload, id: number): Promise<CourseModuleEntity> {

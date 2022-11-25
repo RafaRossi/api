@@ -5,17 +5,16 @@ import { CourseModuleService } from "../../course-modules/services/course-module
 import { CourseEntity } from "../entities/course.entity";
 import { CoursePayload } from "../models/course.payload";
 import { CourseProxy } from "../models/course.proxy";
+import { BaseService } from "../../../base/base.service";
 
 @Injectable()
-export class CourseService {
+export class CourseService extends BaseService<CourseEntity> {
   constructor(
     @InjectRepository(CourseEntity)
-    private repository: Repository<CourseEntity>,
+    repository: Repository<CourseEntity>,
     private readonly courseModuleService: CourseModuleService
-  ) {}
-
-  public async getRepository(): Promise<Repository<CourseEntity>> {
-    return await this.repository;
+  ) {
+    super(repository);
   }
 
   public async findAll(): Promise<CourseEntity[]> {
@@ -39,10 +38,10 @@ export class CourseService {
   }
 
   public async remove(id: number): Promise<void> {
-    await await this.repository.delete(id);
+    await this.repository.delete(id);
   }
 
-  public async create(payload: CoursePayload): Promise<CourseProxy> {
+  public async create(payload: CoursePayload): Promise<CourseEntity> {
     const course = new CourseEntity();
 
     course.name = payload.name;

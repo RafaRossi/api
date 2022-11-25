@@ -1,22 +1,20 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from "../../../base/base.entity";
 
 @Entity()
-export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class UserEntity extends BaseEntity {
+  @Column()
+  public email: string;
 
   @Column()
-  email: string;
+  public password: string;
 
   @Column()
-  password: string;
+  public name: string;
 
   @Column()
-  name: string;
-
-  @Column()
-  imageUrl: string;
+  public imageUrl: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  public isActive: boolean;
 }

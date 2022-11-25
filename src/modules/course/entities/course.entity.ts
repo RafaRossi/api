@@ -1,12 +1,9 @@
-import { CourseModuleEntity } from "src/modules/course-modules/entities/course-module.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CourseModuleEntity } from 'src/modules/course-modules/entities/course-module.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from "../../../base/base.entity";
 
 @Entity()
-export class CourseEntity {
-
-  @PrimaryGeneratedColumn()
-  public id: number;
-
+export class CourseEntity extends BaseEntity {
   @Column()
   public name: string;
 
@@ -22,7 +19,9 @@ export class CourseEntity {
   @Column()
   public imageUrl: string;
 
-  @OneToMany(() => CourseModuleEntity, module => module.course)
+  @OneToMany(
+    () => CourseModuleEntity,
+    (module) => module.course,
+  )
   public modules?: CourseModuleEntity[];
-
 }
