@@ -17,4 +17,7 @@ export class UserEntity extends BaseEntity {
 
   @Column({ default: true })
   public isActive: boolean;
+
+  @Column({ type: 'simple-array' })
+  public roles: string[];
 }

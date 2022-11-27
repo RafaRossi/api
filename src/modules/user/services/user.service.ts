@@ -47,11 +47,15 @@ export class UserService extends BaseService<UserEntity> {
 
     const user = new UserEntity();
 
-    user.email = payload.email;
-    user.name = payload.name;
-    user.imageUrl = payload.imageUrl;
-    user.password = payload.password;
-    user.isActive = payload.isActive;
+    user.email = payload.email ?? user.email;
+    user.name = payload.name ?? user.name;
+    user.imageUrl = payload.imageUrl ?? user.imageUrl;
+    user.isActive = payload.isActive ?? user.isActive;
+
+    if (payload.password) {
+      const salt = await bcryptjs.genSalt();
+      user.password = await bcryptjs.hash(payload.password, salt);
+    }
 
     const entity = {
       ...oldEntity,

@@ -17,13 +17,16 @@ export class CourseModuleService extends BaseService<CourseModuleEntity> {
     super(repository);
   }
 
-  public async findAll(): Promise<CourseModuleEntity[]> {
+  public async findAll(courseId: number): Promise<CourseModuleEntity[]> {
     return await this.repository.find({
       join: {
         alias: "module",
         leftJoinAndSelect: {
           lessons: "module.lessons"
-        }
+        },
+      },
+      where: {
+        courseId: courseId ? +courseId : undefined,
       }
     });
   }
