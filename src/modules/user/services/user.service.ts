@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "../entities/user.entity";
 import { UserPayload } from "../models/user.payload";
 import { BaseService } from "../../../base/base.service";
+import { RolesEnum } from "../models/roles.enum";
 
 @Injectable()
 export class UserService extends BaseService<UserEntity> {
@@ -38,6 +39,7 @@ export class UserService extends BaseService<UserEntity> {
     user.password = await bcryptjs.hash(payload.password, salt);
 
     user.isActive = payload.isActive;
+    user.roles = [RolesEnum.USER];
 
     return await this.repository.save(user);
   }
