@@ -6,7 +6,7 @@ import { BaseProxy } from "../../../base/base.proxy";
 export class CourseProxy extends BaseProxy {
   constructor(entity: CourseEntity) {
     super(entity);
-    
+
     this.name = entity.name;
     this.description = entity.description;
     this.author = entity.author;

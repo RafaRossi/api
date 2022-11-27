@@ -5,24 +5,24 @@ import { CourseProxy } from "../../course/models/course.proxy";
 import { LessonProxy } from "../../lessons/models/lesson.proxy";
 
 export class CourseModuleProxy extends BaseProxy {
-    constructor(entity: CourseModuleEntity) {
-        super(entity);
+  constructor(entity: CourseModuleEntity) {
+    super(entity);
 
-        this.title = entity.title;
-        this.courseId = entity.courseId;
-        this.course = entity.course ? new CourseProxy(entity.course) : undefined;
-        this.lessons = entity.lessons?.map(lesson => new LessonProxy(lesson));
-    }
+    this.title = entity.title;
+    this.courseId = entity.courseId;
+    this.course = entity.course ? new CourseProxy(entity.course) : undefined;
+    this.lessons = entity.lessons?.map(lesson => new LessonProxy(lesson));
+  }
 
-    @ApiProperty()
-    public title: string;
+  @ApiProperty()
+  public title: string;
 
-    @ApiProperty()
-    public courseId: number;
+  @ApiProperty()
+  public courseId: number;
 
-    @ApiPropertyOptional({ type: CourseProxy })
-    public course?: CourseProxy;
+  @ApiPropertyOptional({ type: CourseProxy })
+  public course?: CourseProxy;
 
-    @ApiPropertyOptional({ type: LessonProxy, isArray: true })
-    public lessons?: LessonProxy[];
+  @ApiPropertyOptional({ type: LessonProxy, isArray: true })
+  public lessons?: LessonProxy[];
 }
