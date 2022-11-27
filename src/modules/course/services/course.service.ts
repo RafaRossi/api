@@ -17,14 +17,13 @@ export class CourseService extends BaseService<CourseEntity> {
     super(repository);
   }
 
-  public async findAll(search: string): Promise<CourseEntity[]> {
+  public async findAll(name: string, category: string): Promise<CourseEntity[]> {
     return await this.repository
       .createQueryBuilder('course')
       .leftJoinAndSelect('course.modules', 'modules')
       .leftJoinAndSelect('modules.lessons', 'lessons')
-      .where('course.name ILIKE :search')
-      .orWhere('course.category ILIKE :search')
-      .setParameters({ search: '%' + search + '%' })
+      .where('course.name ILIKE :name', { name: '%' + name + '%' })
+      .andWhere('course.category ILIKE :category', { category: '%' + category + '%' })
       .getMany();
   }
 

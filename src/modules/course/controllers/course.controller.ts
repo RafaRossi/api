@@ -15,9 +15,14 @@ export class CourseController {
     @Get()
     @ApiOkResponse({ type: CourseProxy, isArray: true})
     @ApiOperation({ summary: 'Retorna os dados de todos cursos.'})
-    @ApiQuery({ name: 'search', type: String, required: false })
-    public async getMany(@Query('search') search?: string): Promise<CourseProxy[]> {
-        return await this.service.findAll(search || '').then(entities => entities.map(entity => new CourseProxy(entity)));
+    @ApiQuery({ name: 'name', type: String, required: false })
+    @ApiQuery({ name: 'category', type: String, required: false })
+    public async getMany(
+      @Query('name') name?: string,
+      @Query('category') category?: string,
+    ): Promise<CourseProxy[]> {
+        return await this.service.findAll(name || '', category || '')
+          .then(entities => entities.map(entity => new CourseProxy(entity)));
     }
 
     @Get(':id')
