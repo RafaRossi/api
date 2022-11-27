@@ -16,11 +16,17 @@ export class UserCourseService extends BaseService<UserCourseEntity> {
   }
 
   public async findAll(userId: number): Promise<UserCourseEntity[]> {
-    return await this.repository.find({ where: { userId } });
+    return await this.repository.find({
+      where: { userId },
+      relations: [ 'course' ],
+    });
   }
 
   public async findOne(id: number): Promise<UserCourseEntity> {
-    return await this.repository.findOneBy({ id });
+    return await this.repository.findOne({
+      where: { id },
+      relations: [ 'course' ],
+    });
   }
 
   public async remove(id: number): Promise<void> {
