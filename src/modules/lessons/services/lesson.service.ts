@@ -31,6 +31,7 @@ export class LessonService extends BaseService<LessonEntity> {
     const course = new LessonEntity();
 
     course.title = payload.title;
+    course.description = payload.description;
     course.videoUrl = payload.videoUrl;
     course.courseModuleId = payload.courseModuleId;
 
@@ -44,6 +45,7 @@ export class LessonService extends BaseService<LessonEntity> {
       const lesson = new LessonEntity();
 
       lesson.title = lessonPayload.title;
+      lesson.description = lessonPayload.description;
       lesson.videoUrl = lessonPayload.videoUrl;
       lesson.courseModuleId = lessonPayload.courseModuleId;
 
@@ -61,7 +63,8 @@ export class LessonService extends BaseService<LessonEntity> {
 
     const lesson = new LessonEntity();
 
-    lesson.title = payload.title;
+    lesson.title = payload.title ?? oldEntity.title;
+    lesson.description = payload.description ?? oldEntity.description;
 
     const entity = {
       ...oldEntity,

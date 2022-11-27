@@ -7,6 +7,7 @@ export class LessonProxy extends BaseProxy {
   constructor(entity: LessonEntity) {
     super(entity);
     this.title = entity.title;
+    this.description = entity.description;
     this.videoUrl = entity.videoUrl;
     this.courseModuleId = entity.courseModuleId;
     this.courseModule = entity.courseModule ? new CourseModuleProxy(entity.courseModule) : undefined;
@@ -14,6 +15,9 @@ export class LessonProxy extends BaseProxy {
 
   @ApiProperty()
   public title: string;
+
+  @ApiProperty()
+  public description?: string;
 
   @ApiProperty()
   public videoUrl: string;

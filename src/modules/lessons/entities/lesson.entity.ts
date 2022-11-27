@@ -11,6 +11,9 @@ export class LessonEntity extends BaseEntity {
   public title: string;
 
   @Column({ nullable: true })
+  public description?: string;
+
+  @Column({ nullable: true })
   public videoUrl?: string;
 
   @Column()
