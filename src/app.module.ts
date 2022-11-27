@@ -8,6 +8,7 @@ import { LessonModule } from './modules/lessons/lesson.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthTokenModule } from "./modules/auth/auth-token.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { UserCourseModule } from "./modules/user-courses/user-course.module";
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from "./modules/auth/auth.module";
       },
     }),
     AuthModule,
+    UserCourseModule,
     CourseModuleModule,
     CourseModule,
     LessonModule,
