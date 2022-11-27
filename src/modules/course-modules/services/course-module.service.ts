@@ -27,7 +27,10 @@ export class CourseModuleService extends BaseService<CourseModuleEntity> {
       },
       where: {
         courseId: courseId ? +courseId : undefined,
-      }
+      },
+      order: {
+        createdAt: 'ASC',
+      },
     });
   }
 
