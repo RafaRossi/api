@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { CourseEntity } from "../entities/course.entity";
+import { CourseModuleProxy } from "../../course-modules/models/course-module.proxy";
 
 export class CourseProxy {
   constructor(entity: CourseEntity) {
@@ -9,6 +10,8 @@ export class CourseProxy {
     this.author = entity.author;
     this.category = entity.category;
     this.imageUrl = entity.imageUrl;
+
+    this.modules = entity.modules?.map(module => new CourseModuleProxy(module));
   }
 
   @ApiProperty()
@@ -28,4 +31,7 @@ export class CourseProxy {
 
   @ApiProperty()
   public imageUrl: string;
+
+  @ApiPropertyOptional({ type: CourseModuleProxy, isArray: true })
+  public modules?: CourseModuleProxy[];
 }

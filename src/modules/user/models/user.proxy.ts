@@ -1,22 +1,33 @@
-﻿import {ApiProperty} from "@nestjs/swagger";
+﻿import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { UserEntity } from "../entities/user.entity";
+import { BaseProxy } from "../../../base/base.proxy";
+import { RolesEnum } from "./roles.enum";
 
-export class UserProxy {
+export class UserProxy extends BaseProxy {
 
     constructor(
       entity: UserEntity
     ) {
-        this.id = entity.id;
+        super(entity);
         this.name = entity.name;
+        this.email = entity.email;
         this.imageUrl = entity.imageUrl;
+        this.isActive = entity.isActive;
+        this.roles = entity.roles;
     }
-
-    @ApiProperty()
-    public id: number;
 
     @ApiProperty()
     public name: string;
 
     @ApiProperty()
-    public imageUrl: string;
+    public email: string;
+
+    @ApiPropertyOptional()
+    public imageUrl?: string;
+
+    @ApiProperty()
+    public isActive: boolean;
+
+    @ApiProperty({ type: String, isArray: true })
+    public roles: RolesEnum[];
 }

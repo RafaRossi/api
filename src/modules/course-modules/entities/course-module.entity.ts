@@ -20,5 +20,5 @@ export class CourseModuleEntity extends BaseEntity {
   public course?: CourseEntity;
 
   @OneToMany(() => LessonEntity, (lesson) => lesson.courseModule)
-  public lessons?: LessonEntity;
+  public lessons?: LessonEntity[];
 }

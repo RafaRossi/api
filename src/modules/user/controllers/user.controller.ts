@@ -13,7 +13,7 @@ export class UserController {
         private service: UserService,
     ) { }
 
-    @Get('/list')
+    @Get()
     @ApiOkResponse({ type: UserProxy, isArray: true })
     @ApiOperation({ summary: 'Retorna os dados de todos usuários.'})
     public async getUsers(): Promise<UserProxy[]> {

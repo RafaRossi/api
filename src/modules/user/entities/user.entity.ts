@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from "../../../base/base.entity";
+import { RolesEnum } from "../models/roles.enum";
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -19,5 +20,5 @@ export class UserEntity extends BaseEntity {
   public isActive: boolean;
 
   @Column({ type: 'simple-array' })
-  public roles: string[];
+  public roles: RolesEnum[];
 }
