@@ -3,6 +3,7 @@ import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserPayload } from "../models/user.payload";
 import { UserService } from '../services/user.service';
 import { UserProxy } from '../models/user.proxy';
+import { AvatarProxy } from "../models/avatar.proxy";
 
 @Controller('user')
 @ApiTags('user')
@@ -44,5 +45,11 @@ export class UserController {
     @ApiOperation({ summary: 'Deleta um usuário pela identificação.'})
     public deleteUser(@Param('id') id: number): Promise<void> {
         return this.service.remove(+id);
+    }
+
+    @Get('avatar/:email')
+    @ApiOperation({ summary: 'Obtém um avatar pelo email.'})
+    public getAvatar(@Param('email') email: string): AvatarProxy {
+        return this.service.getAvatarByEmail(email);
     }
 }

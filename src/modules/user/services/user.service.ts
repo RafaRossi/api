@@ -6,6 +6,8 @@ import { UserEntity } from "../entities/user.entity";
 import { UserPayload } from "../models/user.payload";
 import { BaseService } from "../../../base/base.service";
 import { RolesEnum } from "../models/roles.enum";
+import { getGravatarUrl } from "../utils/avatar";
+import { AvatarProxy } from "../models/avatar.proxy";
 
 @Injectable()
 export class UserService extends BaseService<UserEntity> {
@@ -33,7 +35,11 @@ export class UserService extends BaseService<UserEntity> {
 
     user.email = payload.email;
     user.name = payload.name;
-    user.imageUrl = payload.imageUrl;
+
+    if (payload.imageUrl)
+      user.imageUrl = payload.imageUrl;
+    else
+      user.imageUrl = getGravatarUrl(payload.email);
 
     const salt = await bcryptjs.genSalt();
     user.password = await bcryptjs.hash(payload.password, salt);
@@ -65,5 +71,9 @@ export class UserService extends BaseService<UserEntity> {
     };
 
     return await this.repository.save(entity);
+  }
+
+  public getAvatarByEmail(email: string): AvatarProxy {
+    return new AvatarProxy(getGravatarUrl(email));
   }
 }

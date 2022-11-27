@@ -12,8 +12,8 @@ export class UserEntity extends BaseEntity {
   @Column()
   public name: string;
 
-  @Column()
-  public imageUrl: string;
+  @Column({ nullable: true })
+  public imageUrl?: string;
 
   @Column({ default: true })
   public isActive: boolean;
