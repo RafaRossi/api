@@ -1,10 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { CourseEntity } from "../entities/course.entity";
 import { CourseModuleProxy } from "../../course-modules/models/course-module.proxy";
+import { BaseProxy } from "../../../base/base.proxy";
 
-export class CourseProxy {
+export class CourseProxy extends BaseProxy {
   constructor(entity: CourseEntity) {
-    this.id = entity.id;
+    super(entity);
+    
     this.name = entity.name;
     this.description = entity.description;
     this.author = entity.author;
