@@ -1,5 +1,5 @@
-import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
-import {ApiOkResponse, ApiOperation, ApiProperty, ApiTags} from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from "@nestjs/common";
+import { ApiOkResponse, ApiOperation, ApiProperty, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CoursePayload } from '../models/course.payload';
 import { CourseProxy } from '../models/course.proxy';
 import { CourseService } from '../services/course.service';
@@ -15,8 +15,9 @@ export class CourseController {
     @Get()
     @ApiOkResponse({ type: CourseProxy, isArray: true})
     @ApiOperation({ summary: 'Retorna os dados de todos cursos.'})
-    public async getMany(): Promise<CourseProxy[]> {
-        return await this.service.findAll().then(entities => entities.map(entity => new CourseProxy(entity)));
+    @ApiQuery({ name: 'search', type: String, required: false })
+    public async getMany(@Query('search') search?: string): Promise<CourseProxy[]> {
+        return await this.service.findAll(search || '').then(entities => entities.map(entity => new CourseProxy(entity)));
     }
 
     @Get(':id')
