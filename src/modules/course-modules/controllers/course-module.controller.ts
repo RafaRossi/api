@@ -31,7 +31,7 @@ export class CourseModuleController {
     @ApiOkResponse({type: CourseModuleProxy})
     public async post(@Body() payload: CourseModulePayload): Promise<CourseModuleProxy> {
         return await this.service.create(payload).then(entity => new CourseModuleProxy(entity));
-        };
+    }
 
     @Put(':id')
     @ApiOperation({ summary: 'Atualiza um modulo pela identificação.'})

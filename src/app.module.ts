@@ -7,6 +7,7 @@ import { CourseModule } from './modules/course/course.module';
 import { LessonModule } from './modules/lessons/lesson.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthTokenModule } from "./modules/auth/auth-token.module";
+import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { AuthTokenModule } from "./modules/auth/auth-token.module";
         },
       },
     }),
-    AuthTokenModule,
+    AuthModule,
     CourseModuleModule,
     CourseModule,
     LessonModule,
