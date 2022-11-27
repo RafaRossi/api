@@ -33,7 +33,8 @@ export class CourseService extends BaseService<CourseEntity> {
       join: {
         alias: "course",
         leftJoinAndSelect: {
-          modules: "course.modules"
+          modules: "course.modules",
+          lessons: "modules.lessons",
         }
       }
     });
