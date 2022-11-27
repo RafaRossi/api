@@ -12,7 +12,7 @@ import { AuthTokenModule } from "./modules/auth/auth-token.module";
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: environment.DB_URL,
+      url: environment.DATABASE_URL,
       // port: +environment.DB_PORT,
       // host: environment.DB_HOST,
       // username: environment.DB_USER,
